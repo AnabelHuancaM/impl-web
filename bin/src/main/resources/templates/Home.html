@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="/layout :: head"></head>
+<body>
+	
+	<header th:replace="/layout :: header"></header>
+	
+	<!--Inicio de contenido-->
+	<div class="container mt-2">
+		<div class="jumbotron">
+			<h1 class="display-4" th:text="${titulo}"></h1>
+			<br>
+			<p class="lead" th:text="${Mensaje}"></p>
+
+			<hr class="my-4">
+			<div class="jumbotron">
+				<img style="border-radius: 20px;
+				width: 100%;box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;" 
+				alt="Spring Framework" th:src="@{/img/Spring-logo.png}">
+			</div>
+		</div>
+	</div>
+	<!--Fin de contenido-->
+
+	<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title th:text="${TituloPagina}"></title>
+<link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
+</head>
+<body>
+
+	<header th:replace="/layout :: header"></header>
+
+	<div class="container mt-2">
+		<div class="jumbotron">
+			<h1 class="display-4" th:text="${titulo}"></h1>
+			<p class="lead" th:text="${Estado}"></p>
+			<hr class="my-4">
+
+			<div>
+				<form th:action="@{/app/form}" th:object="${personaje}"  method="post" enctype="multipart/form-data">				
+				
+					<div class="form-group">
+						<label for="idNombres">Nombres</label> 
+						<input type="text" name="nombres" class="form-control" id="idNombres" th:field="*{nombres}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('nombres')}"  th:errors="*{nombres}" ></div>
+					</div>
+					
+					<div class="form-group">
+						<label for="idAlias">Alias</label> 
+						<input type="text" name="alias"  class="form-control" id="idAlias" th:field="*{alias}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('alias')}"  th:errors="*{alias}" ></div>
+					</div>
+					
+					<div class="form-group">
+						<label for="idTipoFruta">Tipo de Fruta</label> 
+						<input type="text" name="tipoFruta" class="form-control" id="idTipoFruta" th:field="*{tipoFruta}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('tipoFruta')}"  th:errors="*{tipoFruta}" ></div>
+					</div>
+					
+					<div class="form-group">
+						<label for="idHabilidad">Habilidad</label> 
+						<input type="text" name="habilidad" class="form-control" id="idHabilidad" th:field="*{habilidad}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('habilidad')}"  th:errors="*{habilidad}" ></div>
+					</div>
+					
+					<div class="form-group">
+						<label for="idTripulacion">Tripulación</label> 
+						<input type="text" name="tripulacion" class="form-control" id="idTripulacion" th:field="*{tripulacion}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('tripulacion')}"  th:errors="*{tripulacion}" ></div>
+					</div>
+					
+					<div class="form-group">
+						<label for="idRecompensa">Recompensa</label> 
+						<input type="text" name="reconpensa" class="form-control" id="idRecompensa" th:field="*{reconpensa}"> 
+						<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('reconpensa')}"  th:errors="*{reconpensa}" ></div>
+					</div>
+					
+					<div class="form-group">
+						<label for="idUriImagen">Enlace Imagen</label> 
+						<input type="file" name="ImagenDelFormulario" class="form-control" id="idUriImagen">
+					</div>
+					
+					<button type="submit" class="btn btn-success">Crear Personaje</button>
+				</form>
+			</div>			
+
+		</div>
+	</div>
+
+
+	<script src="/bootstrap/jquery.slim.min.js"></script>
+	<script src="/bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+</html>
