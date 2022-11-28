@@ -38,7 +38,7 @@ public class FileService implements IFileGeneric {
 		
 				
 		try {
-			byte[] bytesFile = fileGeneric.getBytes();
+			byte[] bytesFile = fileGeneric.getBytes();//arreglo de bytes
 			Path enlaceAGuardar = Paths.get(config.pathImage()+"//"+newName);
 			Files.write(enlaceAGuardar, bytesFile);
 			
@@ -53,6 +53,43 @@ public class FileService implements IFileGeneric {
 		
 		return respuesta;
 	}
+	
+	@Override
+	public ResponseFile crearFileAPI(String fileBase64) {		
+		
+		ResponseFile respuesta =  new ResponseFile();
+		
+		responseFileGeneric rfg = new responseFileGeneric();
+		
+		String NewExtention = StringUtils.getFilenameExtension(fileGeneric.getOriginalFilename());
+		
+		String newName = UUID.randomUUID().toString() + "." + NewExtention;
+		
+				
+		try {
+			//byte[] bytesFile = helperFile.procesarFile(fileBase64);
+			byte[] bytesFile = null;
+			rfg = helperFile.procesarFile(fileBase64);
+			
+			if (rfg.isEstado()) {
+				bytesFile = rfg.getFileBytes();
+			}
+			
+			Path enlaceAGuardar = Paths.get(config.pathImage()+"//"+newName);
+			Files.write(enlaceAGuardar, bytesFile);
+			
+			respuesta.setEstado(true);
+			respuesta.setNombreFile(newName);
+			
+		} catch (IOException e) {
+			respuesta.setEstado(false);
+			respuesta.setNombreFile(fileGeneric.getOriginalFilename());
+			respuesta.setMensajeError(e.getStackTrace().toString());
+		}						
+		
+		return respuesta;
+	}
+
 
 	@Override
 	public ResponseFile eliminarFile(String fileName) {

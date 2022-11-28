@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.certus.spring.models.Personaje;
 import com.certus.spring.models.Response;
+import com.certus.spring.models.dto.PersonajeDTO;
 import com.certus.spring.service.inteface.IPersonajeService;
 
 @RestController
@@ -32,7 +33,7 @@ public class APIController {
 	}
 	
 	@PutMapping("/editar/{id}") //ruta (metodo put)
-	public Response<Personaje> editarPersonaje (@RequestBody Personaje per, @PathVariable int id){
+	public Response<Personaje> editarPersonaje (@RequestBody PersonajeDTO per, @PathVariable int id){
 		Response<Personaje> rspta = new Response<>();
 		
 		Response<Personaje> rsptaAux = InterfacePersonaje1.editarPersonaje(id);
@@ -41,7 +42,7 @@ public class APIController {
 		if (rsptaAux.getEstado()) { //en caso exista el personaje, o si el estado es verdadero
 			per.setIdPersonaje(rsptaAux.getData().getIdPersonaje()); //espera un id
 			
-			rspta = InterfacePersonaje1.crearPersonaje(per, null);//procede a actualizarlo
+			rspta = InterfacePersonaje1.crearPersonajeAPI(per);//procede a actualizarlo
 			
 		}else {
 			rspta = rsptaAux; //asignando a la respuesta principal

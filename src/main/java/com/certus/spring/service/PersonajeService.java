@@ -11,6 +11,7 @@ import com.certus.spring.config.MvcConfig;
 import com.certus.spring.models.Personaje;
 import com.certus.spring.models.Response;
 import com.certus.spring.models.ResponseFile;
+import com.certus.spring.models.dto.PersonajeDTO;
 import com.certus.spring.repository.PersonajeDAO;
 import com.certus.spring.service.inteface.IFileGeneric;
 import com.certus.spring.service.inteface.IPersonajeService;
@@ -130,6 +131,40 @@ public class PersonajeService implements IPersonajeService {
 		return response;
 	}
 
+	@Override
+	public Response<Personaje> crearPersonajeAPI(PersonajeDTO p) {		
+
+		Response<Personaje> response = new Response<>();		
+		try {
+			
+			//valida si tiene una imagen	
+			if (!p.getFileBase64().isEmpty()) { //si contiene algo o no
+				if (p.getUriImagen() != null) {
+					fileGeneric.eliminarFile(p.getUriImagen());
+				}
+				//sino crearla medinate la interfaz generica
+				ResponseFile respuesta = fileGeneric.crearFileAPI(p.getFileBase64());
+				if (respuesta.isEstado()) {
+					p.setUriImagen(respuesta.getNombreFile());
+				}else {
+					response.setEstado(false);
+					response.setMensaje("Error al procesar el archivo "+respuesta.getNombreFile());
+					response.setMensajeError(respuesta.getMensajeError());	
+					return response;
+				}
+			}
+			
+			Personaje personaje = personajeRepository.save(p);			
+			response.setEstado(true);
+			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido creado correctamente");
+			
+		} catch (Exception e) {
+			response.setEstado(false);
+			response.setMensaje("Error al crear el personajes "+p.getNombres());
+			response.setMensajeError(e.getStackTrace().toString());
+		}		
+		return response;
+	}
 
 
 

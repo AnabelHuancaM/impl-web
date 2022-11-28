@@ -7,6 +7,9 @@ import com.certus.spring.models.ResponseFile;
 public interface IFileGeneric {
 	
 	public ResponseFile crearFile(MultipartFile fileGeneric);
+	
+	public ResponseFile crearFileAPI(String fileBase64);
+	
 	public ResponseFile eliminarFile(String fileName);
 
 }
