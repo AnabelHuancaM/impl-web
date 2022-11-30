@@ -53,11 +53,11 @@ public class PersonajeService implements IPersonajeService {
 			
 			Personaje personaje = personajeRepository.save(p);			
 			response.setEstado(true);
-			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido creado correctamente");
+			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido guardado correctamente");
 			
 		} catch (Exception e) {
 			response.setEstado(false);
-			response.setMensaje("Error al crear el personajes "+p.getNombres());
+			response.setMensaje("Se produjo un error o el personaje no existe");
 			response.setMensajeError(e.getStackTrace().toString());
 		}		
 		return response;
@@ -102,7 +102,7 @@ public class PersonajeService implements IPersonajeService {
 			
 		} catch (Exception e) {
 			response.setEstado(false);
-			response.setMensaje("Error al eliminar el personaje");
+			response.setMensaje("Se produjo un error o el personaje no existe");
 			response.setMensajeError(e.getStackTrace().toString());
 		}
 				
@@ -136,28 +136,40 @@ public class PersonajeService implements IPersonajeService {
 
 		Response<Personaje> response = new Response<>();		
 		try {
-			
-			//valida si tiene una imagen	
-			if (!p.getFileBase64().isEmpty()) { //si contiene algo o no
-				if (p.getUriImagen() != null) {
+
+			if (!p.getFileBase64().isEmpty()) {	
+
+				if (p.getUriImagen() != null) {						
 					fileGeneric.eliminarFile(p.getUriImagen());
 				}
-				//sino crearla medinate la interfaz generica
-				ResponseFile respuesta = fileGeneric.crearFileAPI(p.getFileBase64());
+
+				ResponseFile respuesta = fileGeneric.crearFileAPI(p.getFileBase64(), p.getNombreFileExtension());
 				if (respuesta.isEstado()) {
 					p.setUriImagen(respuesta.getNombreFile());
 				}else {
 					response.setEstado(false);
 					response.setMensaje("Error al procesar el archivo "+respuesta.getNombreFile());
 					response.setMensajeError(respuesta.getMensajeError());	
-					return response;
-				}
+					return response; 
+				}				
 			}
-			
-			Personaje personaje = personajeRepository.save(p);			
+
+			//Definir el personaje del tipo "Personaje"
+			Personaje Prj = new Personaje(); 
+
+			Prj.setIdPersonaje(p.getIdPersonaje());
+			Prj.setNombres(p.getNombres());
+			Prj.setAlias(p.getAlias());
+			Prj.setTipoFruta(p.getTipoFruta());
+			Prj.setHabilidad(p.getHabilidad());
+			Prj.setTripulacion(p.getTripulacion());
+			Prj.setReconpensa(p.getReconpensa());
+			Prj.setUriImagen(p.getUriImagen());
+
+			Personaje personaje = personajeRepository.save(Prj);			
 			response.setEstado(true);
-			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido creado correctamente");
-			
+			response.setMensaje("El Personaje "+personaje.getNombres()+" ha sido guardado correctamente");
+
 		} catch (Exception e) {
 			response.setEstado(false);
 			response.setMensaje("Error al crear el personajes "+p.getNombres());
@@ -165,7 +177,6 @@ public class PersonajeService implements IPersonajeService {
 		}		
 		return response;
 	}
-
 
 
 	

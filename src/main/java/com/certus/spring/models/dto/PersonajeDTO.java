@@ -4,19 +4,33 @@ package com.certus.spring.models.dto;
 public class PersonajeDTO {
 	
 	private int idPersonaje;
-	private String alias;
+	private String nombres;
+	private String alias;	
 	private String tipoFruta;
 	private String habilidad;
 	private String tripulacion;
 	private String reconpensa;
 	private String uriImagen;
+	private String nombreFileExtension;
 	private String fileBase64;
-	
+
+	public String getNombreFileExtension() {
+		return nombreFileExtension;
+	}
+	public void setNombreFileExtension(String nombreFileExtension) {
+		this.nombreFileExtension = nombreFileExtension;
+	}
 	public int getIdPersonaje() {
 		return idPersonaje;
 	}
 	public void setIdPersonaje(int idPersonaje) {
 		this.idPersonaje = idPersonaje;
+	}
+	public String getNombres() {
+		return nombres;
+	}
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
 	}
 	public String getAlias() {
 		return alias;

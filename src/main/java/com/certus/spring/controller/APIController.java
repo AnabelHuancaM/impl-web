@@ -33,38 +33,31 @@ public class APIController {
 	}
 	
 	@PutMapping("/editar/{id}") //ruta (metodo put)
-	public Response<Personaje> editarPersonaje (@RequestBody PersonajeDTO per, @PathVariable int id){
+	public Response<Personaje> editarPersonaje(@RequestBody PersonajeDTO per, @PathVariable  int id){
 		Response<Personaje> rspta = new Response<>();
-		
+
 		Response<Personaje> rsptaAux = InterfacePersonaje1.editarPersonaje(id);
-		//condicional
-		
-		if (rsptaAux.getEstado()) { //en caso exista el personaje, o si el estado es verdadero
-			per.setIdPersonaje(rsptaAux.getData().getIdPersonaje()); //espera un id
-			
-			rspta = InterfacePersonaje1.crearPersonajeAPI(per);//procede a actualizarlo
-			
+
+		if (rsptaAux.getEstado()) { //Si existe o no el personaje			
+			per.setIdPersonaje(rsptaAux.getData().getIdPersonaje());			
+			rspta = InterfacePersonaje1.crearPersonajeAPI(per);
 		}else {
-			rspta = rsptaAux; //asignando a la respuesta principal
+			rspta = rsptaAux;
 		}
-		
+
 		return rspta;
 	}
-	
 	
 	@PostMapping("/crear")
-	public Response<Personaje> crearPersonaje (@RequestBody Personaje per){
-		Response<Personaje> rspta = InterfacePersonaje1.crearPersonaje(per, null);
-		
+	public Response<Personaje> crearPersonaje (@RequestBody PersonajeDTO per){
+
+		Response<Personaje> rspta = InterfacePersonaje1.crearPersonajeAPI(per);
 		return rspta;
 	}
-	
-	
+
 	@DeleteMapping("/eliminar/{id}")
-	public Response<Personaje> eliminarPersonaje (@PathVariable int id){
-		
-		Response<Personaje> rspta = InterfacePersonaje1.eliminarPersonaje(id);
-		
+	public Response<Personaje> eliminarPersonaje (@PathVariable int id){		
+		Response<Personaje> rspta = InterfacePersonaje1.eliminarPersonaje(id);		
 		return rspta;
 	}
 	
